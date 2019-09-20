@@ -1,0 +1,65 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#field {
+    width: 402px;
+    height: 402px;
+    position: relative;
+    border: darkgray 8px solid;
+    border-radius: 10px;
+}
+
+#field.animate div {
+    transition: 0.15s left, 0.15s top
+}
+
+#field div {
+    position: absolute;
+    width: 94px;
+    height: 94px;
+}
+
+#field div.item_number {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+    /*text-shadow: -1px -1px 0 rgba(0,0,0, 0.5);*/
+}
+
+#field div.item_number.first {
+    background-color: #66a9ab;
+    color: black;
+}
+
+#field div.item_number.second {
+    background-color: #518688;
+    color: #292929;
+}
+
+#field div.item_number.third {
+    background-color: #426c6e;
+    color: #b0b0b0;
+}
+
+#field div.item_number.fourth {
+    background-color: #2e4b4c;
+    color: #d9d9d9;
+}
+
+#field div.item_empty {
+    background: transparent;
+}
