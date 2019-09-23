@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.buttons {
+    display: flex;
+    margin-top: 28px;
+}
+
+.buttons * {
+    cursor: pointer;
+    background-color: #535353;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-left: 8px;
+    margin-right: 4px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}

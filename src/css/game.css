@@ -1,13 +1,14 @@
-* {
-    margin: 0;
-    padding: 0;
+#game {
+    display: flex;
+    flex-direction: column;
 }
 
-body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.timer {
+    margin-bottom: 16px;
+    text-align: center;
+    color: #535353;
+    font: 28px Arial;
+    font-weight: bold;
 }
 
 #field {
