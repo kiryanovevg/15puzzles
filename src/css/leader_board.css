@@ -1,0 +1,20 @@
+table {
+    min-width: 400px;
+}
+
+td {
+    padding: 8px 16px;
+    border-radius: 4px;
+}
+
+td.header {
+
+}
+
+td.item {
+    border: red 1px solid;
+}
+
+td.align {
+    text-align: center;
+}

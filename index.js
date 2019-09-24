@@ -3,17 +3,18 @@ const tagId = 'game';
 
 const leaderBoard = new LeaderBoard(tagId);
 const game = new Game(tagId, function (seconds) {
-    const username = prompt("You are win! Please enter your name:", "Harry Potter");
-    if (username == null || username === '') {
-        //User cancelled the prompt.
-    } else {
-        console.log(username + ': ' + seconds + ' sec');
-        leaderBoard.add(username, seconds);
+    if (leaderBoard.check(seconds)) {
+        const username = prompt("You are win! Please enter your name:", "Harry Potter");
+        if (username == null || username === '') {
+            //User cancelled the prompt.
+        } else {
+            // console.log(username + ': ' + seconds + ' sec');
+            leaderBoard.add(username, seconds);
+        }
     }
 });
 
 game.start();
-// leaderBoard.show();
 
 document.getElementById('btn_solve')
     .addEventListener('click', function (e) {
@@ -43,3 +44,5 @@ document.getElementById('btn_change_state')
             leaderBoard.show();
         }
     });
+
+document.getElementById('btn_change_state').click();

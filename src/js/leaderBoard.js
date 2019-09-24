@@ -1,4 +1,5 @@
-const DATA = 'data';
+const COOKIE_NAME = 'data';
+const LEADER_COUNT = 4;
 
 class LeaderBoard {
 
@@ -10,38 +11,132 @@ class LeaderBoard {
         const data = this.getDataArray();
         let view;
 
-        if (data) {
-            view = JSON.stringify(data);
+        if (data.length === 0) {
+            view = this.getEmptyView()
         } else {
-            view = 'Empty data';
+            view = this.getTableView(data)
         }
 
-        document.getElementById(tagId).innerText = view;
+        document.getElementById(tagId).innerHTML = view;
+
+        const self = this;
+        const btn = document.createElement('button');
+        document.getElementById(tagId).appendChild(btn);
+        btn.innerText = 'Clear';
+        btn.addEventListener('click', function (e) {
+            self.removeDataArray();
+            self.show();
+        })
+    }
+
+    getTableView(dataArray) {
+        const table = document.createElement('table');
+        const caption = document.createElement('caption');
+        caption.innerText = 'Leader Board';
+        table.appendChild(caption);
+
+        const createRow = function(item, header) {
+            const row = document.createElement('tr');
+            Object.keys(item).forEach(function (key, index) {
+                const col = document.createElement('td');
+                if (index !== 0) col.classList.add('align');
+                if (header) col.classList.add('header');
+                else col.classList.add('item');
+
+                row.appendChild(col);
+                col.innerText = item[key];
+            });
+
+            return row
+        };
+
+        table.appendChild(createRow({
+            username: 'Username',
+            seconds: 'Seconds'
+        }, true));
+        dataArray.forEach(function (item) {
+            table.appendChild(createRow(item));
+        });
+
+        return table.outerHTML;
+    }
+
+    getEmptyView() {
+        return 'Leader board is empty';
+    }
+
+    check(seconds) {
+        if (seconds) {
+            const dataArray = this.getDataArray();
+
+            if (dataArray.length < LEADER_COUNT) return true;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                const item = dataArray[i];
+                if (seconds <= item.seconds) return true;
+            }
+        }
+        return false;
     }
 
     add(username, seconds) {
-        let data = this.getDataArray();
-        if (!data) data = [];
-
+        const dataArray = this.getDataArray();
         const obj = {
             username: username,
             seconds: seconds
         };
 
-        data.push(obj);
-        data.push(obj);
+        // debugger;
+        /*if (dataArray.length === 0)
+            dataArray.push(obj);
+        else {
+            for (let i = 0; i < dataArray.length; i++) {
+                const item = dataArray[i];
+                if (seconds < item.seconds) {
+                    dataArray.splice(i, 0, obj);
+                } else if (seconds === item.seconds && username < item.username)
+                    dataArray.splice(i, 0, obj);
+            }
 
-        console.log(JSON.stringify(data));
+            if (dataArray.length > LEADER_COUNT) {
+                dataArray.splice(LEADER_COUNT, 1);
+            }
+        }*/
 
-        this.saveDataArray(data)
-    }
+        dataArray.push(obj);
+        dataArray.sort(function (a, b) {
+            if (a.seconds < b.seconds) return -1;
+            if (a.seconds > b.seconds) return 1;
+            if (a.seconds === b.seconds) {
+                if (a.username < b.username) return -1;
+                if (a.username > b.username) return 1;
+                if (a.username === b.username) return 0;
+            }
+        });
+        if (dataArray.length > LEADER_COUNT) {
+            dataArray.splice(LEADER_COUNT, 1);
+        }
 
-    saveDataArray(data) {
-        this.setCookie(DATA, JSON.stringify(data), 3)
+        this.saveDataArray(dataArray);
+        // this.removeDataArray();
     }
 
     getDataArray() {
-        return JSON.parse(this.getCookie(DATA))
+        const cookie = this.getCookie(COOKIE_NAME);
+        if (cookie === null) {
+            return [];
+        } else {
+            return JSON.parse(cookie);
+        }
+    }
+
+    saveDataArray(dataArray) {
+        if (dataArray != null)
+            this.setCookie(COOKIE_NAME, JSON.stringify(dataArray), 3)
+    }
+
+    removeDataArray() {
+        this.setCookie(COOKIE_NAME, '[]', 0);
     }
 
     setCookie(name, value, daysToExpire) {
@@ -53,18 +148,13 @@ class LeaderBoard {
         }
         // debugger;
         // const cookie = name+"="+value+expires+"; path=/ ";
-        const cookie = name+"="+value;
-        document.cookie = cookie;
-    }
-
-    removeCookie(name) {
-        this.setCookie(name, "", 0);
+        document.cookie = name+"="+value;
     }
 
     getCookie(name) {
         const nameEQ = name + "=";
         const ca = document.cookie.split(';');
-        for(let i=0; i < ca.length; i++) {
+        for (let i = 0; i < ca.length; i++) {
             let c = ca[i];
             while (c.charAt(0) === ' ') c = c.substring(1, c.length);
             if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
