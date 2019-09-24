@@ -86,23 +86,6 @@ class LeaderBoard {
             seconds: seconds
         };
 
-        // debugger;
-        /*if (dataArray.length === 0)
-            dataArray.push(obj);
-        else {
-            for (let i = 0; i < dataArray.length; i++) {
-                const item = dataArray[i];
-                if (seconds < item.seconds) {
-                    dataArray.splice(i, 0, obj);
-                } else if (seconds === item.seconds && username < item.username)
-                    dataArray.splice(i, 0, obj);
-            }
-
-            if (dataArray.length > LEADER_COUNT) {
-                dataArray.splice(LEADER_COUNT, 1);
-            }
-        }*/
-
         dataArray.push(obj);
         dataArray.sort(function (a, b) {
             if (a.seconds < b.seconds) return -1;
