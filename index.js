@@ -45,4 +45,4 @@ document.getElementById('btn_change_state')
         }
     });
 
-document.getElementById('btn_change_state').click();
+// document.getElementById('btn_change_state').click();
