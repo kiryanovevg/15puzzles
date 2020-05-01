@@ -19,6 +19,7 @@ http.createServer( function(req, res) {
         ".jpg": "image/jpeg",
         ".gif": "image/gif",
         ".png": "image/png",
+        ".json": "application/json",
         ".woff": "application/font-woff",
         ".woff2": "application/font-woff2"
     };
